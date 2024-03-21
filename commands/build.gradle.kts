@@ -14,4 +14,11 @@ dependencies {
     ksp(libs.kotlinInject.compiler)
     implementation(libs.okhttp)
     implementation(libs.retrofit)
+
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.coroutines.test)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
