@@ -1,0 +1,40 @@
+[versions]
+buildconfig = "5.3.5"
+kotlin = "1.9.23"
+kotlinInject = "0.6.3"
+kotlinSerialization = "1.6.3"
+ksp = "1.9.23-1.0.19"
+ktor = "2.3.9"
+logback = "1.5.3"
+okhttp = "4.12.0"
+retrofit = "2.9.0"
+retrofitConverterSerialization = "1.0.0"
+slf4j = "2.0.12"
+tgbotapi = "10.1.1"
+
+[libraries]
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+kotlinInject-compiler = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlinInject" }
+kotlinInject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.ref = "kotlinInject" }
+
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+
+logger-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+logger-logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback" }
+logger-slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofitConverterSerialization" }
+
+tgbotapi = { module = "dev.inmo:tgbotapi", version.ref = "tgbotapi" }
+
+[plugins]
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
