@@ -8,10 +8,10 @@ import me.tatarka.inject.annotations.Inject
 import kotlin.random.Random
 
 @Inject
-class CoinCommandHandler: CommandHandler {
+class CoinCommandHandler(private val random: Random) : CommandHandler {
     override val description: String = "Flip a coin"
     override suspend fun handle(text: String): Reply {
-        val result = if (Random.nextBoolean()) "heads" else "tails"
+        val result = if (random.nextBoolean()) "heads" else "tails"
         return Reply("Coin flip: ".regular(), result.bold())
     }
 }

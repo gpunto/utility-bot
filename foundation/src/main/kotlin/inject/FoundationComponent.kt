@@ -8,8 +8,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import retrofit2.Retrofit
+import kotlin.random.Random
 
 interface FoundationComponent {
+    @Provides
+    fun provideRandom(): Random = Random.Default
 
     @Provides
     @Singleton
