@@ -1,0 +1,52 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build & deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JVM Setup
+        uses: ./.github/actions/jvm-setup
+
+      - name: Write env.properties
+        run: echo "${{ secrets.ENV_PROPERTIES }}" > ./env.properties
+
+      - name: Generate jar
+        run: ./gradlew fatJar
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval `ssh-agent -s`
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+
+      - name: Deploy and execute
+        run: |
+          echo "Copying jar to remote host"
+          scp app/build/libs/app-0.1.jar $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/g-bot.jar.new
+          echo "Shutting down existing process"
+          ssh $REMOTE_USER@$REMOTE_HOST "pkill -f g-bot.jar &"
+          echo "Replacing jar"
+          ssh $REMOTE_USER@$REMOTE_HOST "cd $REMOTE_DIR ; rm g-bot.jar || true ; mv g-bot.jar.new g-bot.jar"
+          echo "Starting new process"
+          ssh $REMOTE_USER@$REMOTE_HOST "cd $REMOTE_DIR ; java -jar g-bot.jar &>/dev/null &"
+        env:
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
