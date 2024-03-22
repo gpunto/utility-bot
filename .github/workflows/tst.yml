@@ -25,7 +25,7 @@ jobs:
 #        env:
 #          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       - name: print out example job
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
