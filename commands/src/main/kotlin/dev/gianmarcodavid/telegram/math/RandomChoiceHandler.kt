@@ -15,7 +15,7 @@ class RandomChoiceHandler : CommandHandler {
     override suspend fun handle(text: String): Reply {
         val args = ArgumentParser.parse(text, ArgumentParser.Separator.commaSpace)
 
-        return if (args.isEmpty()) {
+        return if (args.size <= 1) {
             Reply("Usage: ".regular(), "/$COMMAND [element1], [element2], …".code())
         } else {
             Reply("Random choice: ".regular(), args.random().bold())
