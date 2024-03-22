@@ -41,7 +41,7 @@ jobs:
           echo "Copying jar to remote host"
           scp app/build/libs/app-0.1.jar $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/g-bot.jar.new
           echo "Shutting down existing process"
-          ssh $REMOTE_USER@$REMOTE_HOST "pkill -f g-bot.jar &"
+          ssh $REMOTE_USER@$REMOTE_HOST "pkill -f '^java -jar g-bot.jar' || true"
           echo "Replacing jar"
           ssh $REMOTE_USER@$REMOTE_HOST "cd $REMOTE_DIR ; rm g-bot.jar || true ; mv g-bot.jar.new g-bot.jar"
           echo "Starting new process"
