@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+#      - name: Configure SSH
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+#          chmod 600 ~/.ssh/id_rsa
+#          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+#          ssh-add ~/.ssh/id_rsa
+#          ssh-keyscan -H "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts
+#        env:
+#          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      - name: print out example job
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          command_timeout: 30m
+          script: |
+            cd $REMOTE_DIR
+            touch sbabiiiim
+
+      - name: Deploy and execute
+        run: |
+          ssh $REMOTE_HOST -tt "cd $REMOTE_DIR; pwd"
+        env:
+#          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+          REMOTE_PATH: ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_DIR }}
