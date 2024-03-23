@@ -18,6 +18,8 @@ fun Reply(fragment: String, vararg fragments: String) = Reply(buildList {
 
 fun Reply(text: String) = Reply(listOf(TextFragment(text, Type.Regular)))
 
+fun buildReply(builderAction: MutableList<TextFragment>.() -> Unit) = Reply(buildList(builderAction))
+
 fun String.regular() = TextFragment(this, Type.Regular)
 fun String.bold() = TextFragment(this, Type.Bold)
 fun String.code() = TextFragment(this, Type.Code)

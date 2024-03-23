@@ -30,6 +30,8 @@ kotlin {
     jvmToolchain(17)
 }
 
+application.mainClass = "dev.gianmarcodavid.telegram.MainKt"
+
 val fatJar = tasks.register<Jar>("fatJar") {
     manifest {
         attributes["Main-Class"] = "dev.gianmarcodavid.telegram.MainKt"
