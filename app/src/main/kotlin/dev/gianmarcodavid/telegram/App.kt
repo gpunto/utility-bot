@@ -34,6 +34,7 @@ class App(
 
     @OptIn(PreviewFeature::class)
     suspend fun run() {
+        logger.info("Starting bot")
         val bot = telegramBot(BuildConfig.BOT_TOKEN)
 
         bot.buildBehaviourWithLongPolling(defaultExceptionsHandler = { throwable ->

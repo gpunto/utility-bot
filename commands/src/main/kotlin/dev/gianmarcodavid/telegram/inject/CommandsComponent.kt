@@ -8,8 +8,7 @@ import dev.gianmarcodavid.telegram.`fun`.JokeCommandHandler
 import dev.gianmarcodavid.telegram.`fun`.JokesApi
 import dev.gianmarcodavid.telegram.`fun`.RockPslsGameCommandHandler
 import dev.gianmarcodavid.telegram.math.CoinCommandHandler
-import dev.gianmarcodavid.telegram.math.RandomChoiceHandler
-import dev.gianmarcodavid.telegram.math.RandomNumberHandler
+import dev.gianmarcodavid.telegram.math.RandomCommandHandler
 import dev.gianmarcodavid.telegram.translate.DeepLApi
 import dev.gianmarcodavid.telegram.translate.TranslateCommandHandler
 import dev.gianmarcodavid.telegram.weather.OpenMeteoApi
@@ -67,15 +66,10 @@ interface CommandsComponent {
 
     @Provides
     @IntoMap
-    fun bindRandomNumberHandler(handler: RandomNumberHandler): Pair<String, CommandHandler> =
-        RandomNumberHandler.COMMAND to handler
+    fun bindRandomCommandHandler(handler: RandomCommandHandler): Pair<String, CommandHandler> =
+        RandomCommandHandler.COMMAND to handler
 
     @Provides
     @IntoMap
     fun bindCoinHandler(handler: CoinCommandHandler): Pair<String, CommandHandler> = "coin" to handler
-
-    @Provides
-    @IntoMap
-    fun bindRandomChoiceHandler(handler: RandomChoiceHandler): Pair<String, CommandHandler> =
-        RandomChoiceHandler.COMMAND to handler
 }
