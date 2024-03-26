@@ -14,4 +14,8 @@ class CoinCommandHandler(private val random: Random) : CommandHandler {
         val result = if (random.nextBoolean()) "heads" else "tails"
         return Reply("Coin flip: ".regular(), result.bold())
     }
+
+    companion object {
+        const val COMMAND = "coin"
+    }
 }

@@ -7,6 +7,8 @@ import dev.gianmarcodavid.telegram.finance.StockPriceCommandHandler
 import dev.gianmarcodavid.telegram.`fun`.JokeCommandHandler
 import dev.gianmarcodavid.telegram.`fun`.JokesApi
 import dev.gianmarcodavid.telegram.`fun`.RockPslsGameCommandHandler
+import dev.gianmarcodavid.telegram.holiday.HolidayApi
+import dev.gianmarcodavid.telegram.holiday.HolidayHandler
 import dev.gianmarcodavid.telegram.math.CoinCommandHandler
 import dev.gianmarcodavid.telegram.math.RandomCommandHandler
 import dev.gianmarcodavid.telegram.translate.DeepLApi
@@ -71,5 +73,13 @@ interface CommandsComponent {
 
     @Provides
     @IntoMap
-    fun bindCoinHandler(handler: CoinCommandHandler): Pair<String, CommandHandler> = "coin" to handler
+    fun bindCoinHandler(handler: CoinCommandHandler): Pair<String, CommandHandler> =
+        CoinCommandHandler.COMMAND to handler
+
+    @Provides
+    fun provideHolidayApi(retrofit: Retrofit) = retrofit.create<HolidayApi>()
+
+    @Provides
+    @IntoMap
+    fun bindHolidayHandler(handler: HolidayHandler): Pair<String, CommandHandler> = HolidayHandler.COMMAND to handler
 }
