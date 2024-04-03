@@ -7,41 +7,67 @@ import dev.gianmarcodavid.telegram.command.code
 import dev.gianmarcodavid.telegram.command.regular
 import me.tatarka.inject.annotations.Inject
 import java.time.LocalDate
+import java.time.Year
 import java.time.format.DateTimeFormatter
 
 @Inject
 class HolidayHandler(
-    private val holidayApi: HolidayApi,
-    private val mapper: HolidayMapper,
+    private val repository: HolidaysRepository,
 ) : CommandHandler {
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM")
 
-    override val description: String = "Get holidays for a country"
+    override val description: String = "Get the next holidays for a country"
 
     override suspend fun handle(text: String): Reply {
         val args = ArgumentParser.parse(text)
 
         return if (args.isEmpty()) {
-            Reply("Usage: ".regular(), "/$COMMAND [country code]".code())
+            Reply("Usage: ".regular(), "/$COMMAND [country code] [how many]".code())
         } else {
-            val now = LocalDate.now()
-            val holidays = holidayApi.getHolidays(year = now.year, countryCode = args[0])
-                .map(mapper::map)
+            val countArg = args.getOrNull(1)
+            val count = countArg?.toIntOrNull()
 
-            val nextHolidays = holidays
-                .dropWhile { it.date <= now }
-                .take(3)
-
-            when {
-                holidays.isEmpty() -> Reply("No holidays found")
-                nextHolidays.isEmpty() -> Reply("No more holidays this year")
-                else -> Reply(
-                    "The next holidays are: \n",
-                    nextHolidays.joinToString("\n", transform = { it.formatted() })
+            if (countArg != null && (count == null || count <= 0)) {
+                Reply(
+                    "Invalid ".regular(),
+                    "how many".code(),
+                    " argument '$countArg'. It should be a positive integer.".regular()
                 )
+            } else {
+                fetchHolidays(args[0], count = count ?: 3)
             }
         }
     }
+
+    private suspend fun fetchHolidays(countryCode: String, count: Int): Reply {
+        val nextHolidays = buildList {
+            addAll(
+                repository.fetchHolidays(
+                    countryCode = countryCode,
+                    startingFrom = LocalDate.now(),
+                    limit = count
+                )
+            )
+
+            if (size < count) addAll(
+                repository.fetchHolidays(
+                    countryCode = countryCode,
+                    startingFrom = Year.now().plusYears(1).atDay(1),
+                    limit = count - size
+                )
+            )
+        }
+
+        return if (nextHolidays.isEmpty()) {
+            Reply("No holidays found")
+        } else {
+            Reply(
+                "The next holidays are: \n",
+                nextHolidays.joinToString("\n", transform = { it.formatted() }),
+            )
+        }
+    }
+
 
     private fun Holiday.formatted(): String {
         val formattedDate = dateTimeFormatter.format(date)
