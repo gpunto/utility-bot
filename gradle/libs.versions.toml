@@ -2,7 +2,7 @@
 buildconfig = "5.3.5"
 kotlin = "2.0.0"
 kotlinCoroutines = "1.8.1"
-kotlinInject = "0.6.3"
+kotlinInject = "0.7.1"
 kotlinSerialization = "1.7.0"
 ksp = "2.0.0-1.0.22"
 ktor = "2.3.11"
