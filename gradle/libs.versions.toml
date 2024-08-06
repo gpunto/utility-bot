@@ -1,6 +1,6 @@
 [versions]
 buildconfig = "5.4.0"
-kotlin = "2.0.0"
+kotlin = "2.0.10"
 kotlinCoroutines = "1.8.1"
 kotlinInject = "0.7.1"
 kotlinSerialization = "1.7.1"
