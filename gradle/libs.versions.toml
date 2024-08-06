@@ -10,7 +10,7 @@ logback = "1.5.6"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 retrofitConverterSerialization = "1.0.0"
-slf4j = "2.0.13"
+slf4j = "2.0.14"
 tgbotapi = "15.2.0"
 
 [libraries]
