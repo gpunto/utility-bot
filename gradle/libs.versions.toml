@@ -1,10 +1,10 @@
 [versions]
 buildconfig = "5.4.0"
-kotlin = "2.0.10"
+kotlin = "2.0.20"
 kotlinCoroutines = "1.8.1"
 kotlinInject = "0.7.1"
 kotlinSerialization = "1.7.1"
-ksp = "2.0.10-1.0.24"
+ksp = "2.0.20-1.0.24"
 ktor = "2.3.12"
 logback = "1.5.7"
 okhttp = "4.12.0"
