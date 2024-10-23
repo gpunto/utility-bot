@@ -1,6 +1,10 @@
 package dev.gianmarcodavid.telegram.inject
 
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import dev.gianmarcodavid.telegram.command.CommandHandler
+import dev.gianmarcodavid.telegram.counter.CounterCommandHandler
+import dev.gianmarcodavid.telegram.database.CounterQueries
+import dev.gianmarcodavid.telegram.database.Database
 import dev.gianmarcodavid.telegram.finance.AlphaVantageApi
 import dev.gianmarcodavid.telegram.finance.FinanceCommandHandler
 import dev.gianmarcodavid.telegram.finance.StockPriceCommandHandler
@@ -82,4 +86,16 @@ interface CommandsComponent {
     @Provides
     @IntoMap
     fun bindHolidayHandler(handler: HolidayHandler): Pair<String, CommandHandler> = HolidayHandler.COMMAND to handler
+
+    @Provides
+    @Singleton
+    fun provideDatabase(): CounterQueries = JdbcSqliteDriver("jdbc:sqlite:telegram.db")
+        .also(Database.Schema::create)
+        .let(Database::invoke)
+        .counterQueries
+
+    @Provides
+    @IntoMap
+    fun bindCounterHandler(handler: CounterCommandHandler): Pair<String, CommandHandler> =
+        CounterCommandHandler.COMMAND to handler
 }
