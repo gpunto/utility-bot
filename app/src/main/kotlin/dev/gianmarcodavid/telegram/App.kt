@@ -15,11 +15,7 @@ import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onComman
 import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onUnhandledCommand
 import dev.inmo.tgbotapi.types.BotCommand
 import dev.inmo.tgbotapi.types.message.content.TextMessage
-import dev.inmo.tgbotapi.utils.EntitiesBuilder
-import dev.inmo.tgbotapi.utils.PreviewFeature
-import dev.inmo.tgbotapi.utils.bold
-import dev.inmo.tgbotapi.utils.code
-import dev.inmo.tgbotapi.utils.regular
+import dev.inmo.tgbotapi.utils.*
 import io.ktor.utils.io.*
 import me.tatarka.inject.annotations.Inject
 import org.slf4j.Logger
@@ -60,7 +56,7 @@ class App(
             }) {
                 setMessageReaction(message, "🫡")
 
-                val commandBody = message.content.text.replace("/$command(@[a-zA-Z_]+ )?".toRegex(), "").trim()
+                val commandBody = message.content.text.replace("/$command(@[a-zA-Z_]+)?".toRegex(), "").trim()
 
                 val reply = handler.handle(commandBody)
                 reply(to = message) { add(reply) }
