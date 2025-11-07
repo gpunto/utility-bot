@@ -11,7 +11,7 @@ okhttp = "5.3.0"
 retrofit = "3.0.0"
 retrofitConverterSerialization = "1.0.0"
 slf4j = "2.0.17"
-tgbotapi = "30.0.0"
+tgbotapi = "30.0.1"
 
 [libraries]
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
