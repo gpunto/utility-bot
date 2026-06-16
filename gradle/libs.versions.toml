@@ -1,5 +1,5 @@
 [versions]
-buildconfig = "6.0.9"
+buildconfig = "6.0.10"
 kotlin = "2.4.0"
 kotlinCoroutines = "1.11.0"
 kotlinInject = "0.9.0"
